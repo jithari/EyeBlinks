@@ -24,6 +24,7 @@ import os
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import load_model
+import datetime as dt
 
 def eye_aspect_ratio(eye):
 
@@ -106,10 +107,18 @@ predictor = dlib.shape_predictor(datFile)
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 time.sleep(1.0)
+t = dt.datetime.now()
 
 vs = cv2.VideoCapture("5.mp4")  #path to video
 #vs = cv2.VideoCapture(0)
 while True:
+    delta = dt.datetime.now() - t
+    if delta.seconds >= 120:
+        print("2 Minutes has passed...")
+        print(Final_Result / COUNT * 10)
+        print("2 Minutes has passed...")
+        # Update 't' variable to new time
+        t = dt.datetime.now()
 
     ret, frame = vs.read()
 
@@ -184,7 +193,7 @@ while True:
             Final_Result = Final_Result + 10
             COUNT = COUNT + 1
             print("drowsy")
-            print(Final_Result/COUNT)
+            print(Final_Result/COUNT*10)
             cv2.putText(frame, "drowsy", (300, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
@@ -192,14 +201,14 @@ while True:
             Final_Result = Final_Result + 5
             COUNT = COUNT + 1
             print("low vigilant")
-            print(Final_Result / COUNT)
+            print(Final_Result / COUNT*10)
             cv2.putText(frame, "low vigilant", (300, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         else:
             Final_Result = Final_Result + 0
             COUNT = COUNT + 1
             print("alert")
-            print(Final_Result / COUNT)
+            print(Final_Result / COUNT*10)
             cv2.putText(frame, "alert", (300, 30),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         COUNTER = 0
